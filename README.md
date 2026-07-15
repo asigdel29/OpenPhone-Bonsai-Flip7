@@ -1,5 +1,9 @@
 # OpenPhone
 
+> Migration status: see [the Zig local-agent ledger](docs/ZIG_MIGRATION.md),
+> [architecture](docs/ARCHITECTURE.md), [build](docs/BUILD.md),
+> [security model](docs/runtime/security-model.md), and [device support](docs/DEVICE_SUPPORT.md).
+
 ![OpenPhone GitHub hero](docs/assets/github_hero.png)
 
 [![CI](https://github.com/secondly-com/OpenPhone/actions/workflows/ci.yml/badge.svg)](https://github.com/secondly-com/OpenPhone/actions/workflows/ci.yml)
