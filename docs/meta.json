@@ -7,6 +7,10 @@
     "ARCHITECTURE",
     "CAPABILITIES",
     "AGENT_RUNTIME_V1",
+    "LOCAL_BONSAI_RUNTIME",
+    "BONSAI_ACCEPTANCE",
+    "BONSAI_LATENCY",
+    "BONSAI_EVALS",
     "---Build---",
     "BUILD",
     "EMULATOR",
@@ -27,6 +31,7 @@
     "legal",
     "---Contributing---",
     "contribution-guide",
-    "LOCAL_AGENT_NOTES"
+    "LOCAL_AGENT_NOTES",
+    "STYLE"
   ]
 }

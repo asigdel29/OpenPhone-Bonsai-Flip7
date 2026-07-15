@@ -44,6 +44,34 @@ it started, what it last said, and what needs review.
 The current developer preview is based on LineageOS 23.2 / Android 16 and
 targets Google Pixel 9a (`tegu`) first.
 
+## Local Bonsai: Interactive by Default
+
+The planned `BonsaiRuntime` is designed for private, on-device interaction.
+It is a privileged Binder service with read-only mmap model assets, not a
+writable-storage executable or a network server. The assistant receives UI
+input immediately, streams output as soon as the runtime produces it, and can
+cancel an active generation without waiting for the model to finish.
+
+The interactive profile favors perceived speed and predictable latency:
+
+- one active generation keeps CPU/GPU, memory bandwidth, and thermal headroom
+  focused on the foreground conversation;
+- a 2K default context and 512-token reasoning budget cap expensive prefill and
+  hidden reasoning by default;
+- prompt-cache reuse and a thermal-gated post-unlock prewarm reduce warm-turn
+  startup work without draining the device in the background;
+- image input defaults to 1024 vision tokens; full-detail OCR is an explicit,
+  slower user request;
+- cancellation must be acknowledged within 250 ms; the runtime targets a warm
+  first token at p50 under 2 s and p95 under 4 s, with p50 decode at least 8
+  tokens/s on the accepted device profile.
+
+Those are release targets, not unmeasured promises. A device build cannot be
+called interactive until it records the benchmark evidence in
+[docs/BONSAI_LATENCY.md](docs/BONSAI_LATENCY.md). The 8B Q2_0 model is the
+default bring-up model; 27B is opt-in only after it meets the same thermal,
+memory, and latency gates.
+
 ## Use Cases
 
 - "Catch me up on everything important from overnight" - consume missed calls,
@@ -193,6 +221,9 @@ developer GMS sideload notes are in [docs/GMS.md](docs/GMS.md).
 
 See [docs/devices/MATRIX.md](docs/devices/MATRIX.md) and
 [docs/devices/tegu.md](docs/devices/tegu.md).
+
+The Samsung Galaxy Z Flip7 is tracked as a guarded candidate, not a supported
+target. Its preflight and stop conditions are in [docs/devices/flip7.md](docs/devices/flip7.md).
 
 ## Community
 

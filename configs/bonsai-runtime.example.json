@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "runtime": {
+    "llama_cpp_commit": "PIN_AT_DEVICE_INTEGRATION",
+    "process": "bonsai_runtime",
+    "binder_service": "bonsai_runtime",
+    "http_compatibility_bind": "127.0.0.1",
+    "network_permitted": false
+  },
+  "default_model": {
+    "family": "ternary-bonsai",
+    "size": "8B",
+    "quantization": "Q2_0",
+    "backend_recommendation": "cpu-neon-kleidiai"
+  },
+  "vision": {
+    "image_max_tokens": 1024,
+    "full_detail_requires_explicit_user_choice": true
+  },
+  "interactive_latency": {
+    "enabled": true,
+    "maximum_concurrent_generations": 1,
+    "maximum_context_tokens": 2048,
+    "default_reasoning_budget_tokens": 512,
+    "prompt_cache_enabled": true,
+    "prewarm_after_user_unlock": true,
+    "prewarm_requires_nominal_thermal_state": true,
+    "cancel_acknowledgement_target_millis": 250,
+    "warm_first_token_target_p50_millis": 2000,
+    "warm_first_token_target_p95_millis": 4000,
+    "warm_decode_target_p50_tokens_per_second": 8
+  },
+  "model_install_path": "/product/etc/bonsai/models",
+  "release_1": {
+    "network_tools_allowed": false,
+    "mcp_allowed": false,
+    "state_changing_actions_require_confirmation": true
+  }
+}
