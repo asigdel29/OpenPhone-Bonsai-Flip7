@@ -38,10 +38,17 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
     }) });
     const run_bonsai = b.addRunArtifact(bonsai);
+    const computer_use = b.addTest(.{ .root_module = b.createModule(.{
+        .root_source_file = b.path("src/computer_use_guard.zig"),
+        .target = target,
+        .optimize = optimize,
+    }) });
+    const run_computer_use = b.addRunArtifact(computer_use);
     const test_step = b.step("test", "Run the native ABI contract test");
     test_step.dependOn(&run.step);
     test_step.dependOn(&run_core.step);
     test_step.dependOn(&run_persistence.step);
     test_step.dependOn(&run_router.step);
     test_step.dependOn(&run_bonsai.step);
+    test_step.dependOn(&run_computer_use.step);
 }
