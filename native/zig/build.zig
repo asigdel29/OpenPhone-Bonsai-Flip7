@@ -62,6 +62,12 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
     }) });
     const run_supervision = b.addRunArtifact(supervision);
+    const broker = b.addTest(.{ .root_module = b.createModule(.{
+        .root_source_file = b.path("src/broker_contract.zig"),
+        .target = target,
+        .optimize = optimize,
+    }) });
+    const run_broker = b.addRunArtifact(broker);
     const test_step = b.step("test", "Run the native ABI contract test");
     test_step.dependOn(&run.step);
     test_step.dependOn(&run_core.step);
@@ -72,4 +78,5 @@ pub fn build(b: *std.Build) void {
     test_step.dependOn(&run_consent.step);
     test_step.dependOn(&run_hermes.step);
     test_step.dependOn(&run_supervision.step);
+    test_step.dependOn(&run_broker.step);
 }
