@@ -1,7 +1,8 @@
 const std = @import("std");
+const core = @import("openphone_core.zig");
 
 pub const abi_version: u32 = 1;
-const maximum_request_bytes = 64 * 1024;
+const maximum_request_bytes = core.maximum_request_bytes;
 
 const Request = extern struct {
     version: u32,
