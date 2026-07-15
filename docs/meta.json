@@ -9,6 +9,7 @@
     "AGENT_RUNTIME_V1",
     "LOCAL_BONSAI_RUNTIME",
     "BONSAI_ACCEPTANCE",
+    "BONSAI_LATENCY",
     "---Build---",
     "BUILD",
     "EMULATOR",

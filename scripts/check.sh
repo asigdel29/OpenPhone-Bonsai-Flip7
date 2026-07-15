@@ -22,6 +22,7 @@ required=(
   docs/STYLE.md
   docs/LOCAL_BONSAI_RUNTIME.md
   docs/BONSAI_ACCEPTANCE.md
+  docs/BONSAI_LATENCY.md
   docs/LICENSING.md
   docs/runtime/hermes-integration.md
   docs/runtime/mcp-bridge.md
@@ -925,6 +926,23 @@ if release.get("network_tools_allowed") or release.get("mcp_allowed"):
     raise SystemExit("Release 1 Bonsai runtime must not include network or MCP tools")
 if release.get("state_changing_actions_require_confirmation") is not True:
     raise SystemExit("Bonsai state-changing actions must require confirmation")
+latency = config.get("interactive_latency", {})
+expected = {
+    "enabled": True,
+    "maximum_concurrent_generations": 1,
+    "maximum_context_tokens": 2048,
+    "default_reasoning_budget_tokens": 512,
+    "prompt_cache_enabled": True,
+    "prewarm_after_user_unlock": True,
+    "prewarm_requires_nominal_thermal_state": True,
+    "cancel_acknowledgement_target_millis": 250,
+}
+for key, value in expected.items():
+    if latency.get(key) != value:
+        raise SystemExit(f"Bonsai interactive latency config mismatch: {key}")
+for key in ("warm_first_token_target_p50_millis", "warm_first_token_target_p95_millis", "warm_decode_target_p50_tokens_per_second"):
+    if not isinstance(latency.get(key), int) or latency[key] <= 0:
+        raise SystemExit(f"Bonsai interactive latency target must be positive: {key}")
 PY
 fi
 
