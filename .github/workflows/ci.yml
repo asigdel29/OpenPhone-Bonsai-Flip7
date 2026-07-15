@@ -17,6 +17,29 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Require code-review evidence
+        if: github.event_name == 'pull_request'
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: grep -Eq '(^|[[:space:]])/code-review([[:space:]]|$)' <<< "$PR_BODY"
+
+      - name: Enforce source LOC cap
+        if: github.event_name == 'pull_request'
+        run: ./scripts/check-source-loc-cap.sh "${{ github.event.pull_request.base.sha }}"
+
+      - name: Set up Zig
+        uses: mlugg/setup-zig@v2
+        with:
+          version: 0.14.0
+
+      - name: Build Zig ABI contracts
+        run: |
+          test "$(zig version)" = "$(tr -d '\\n' < .zigversion)"
+          zig build test --build-file native/zig/build.zig
+          zig build --build-file native/zig/build.zig -Dtarget=aarch64-linux-android -Doptimize=ReleaseSafe
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
