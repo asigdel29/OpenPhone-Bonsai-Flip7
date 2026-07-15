@@ -55,8 +55,11 @@ pub export fn openphone_zig_core_generate(handle: ?*Core, request: ?*const Reque
         value.lock.unlock();
     }
     if (cancelled) return -5;
-    const bytes = input.bytes orelse &.{};
-    const copy = value.allocator.dupe(u8, bytes[0..input.bytes_len]) catch return -6;
+    const bytes: []const u8 = if (input.bytes) |pointer|
+        pointer[0..input.bytes_len]
+    else
+        &.{};
+    const copy = value.allocator.dupe(u8, bytes) catch return -6;
     value.lock.lock();
     if (value.cancelled_token == input.cancellation_token) {
         value.lock.unlock();
@@ -74,8 +77,11 @@ pub export fn openphone_zig_core_copy_result(handle: ?*Core, output: ?[*]u8, cap
     const value = state(handle orelse return -1);
     value.lock.lock();
     defer value.lock.unlock();
-    if (capacity < value.result.len or (value.result.len != 0 and output == null)) return -2;
-    @memcpy((output orelse &.{})[0..value.result.len], value.result);
+    if (capacity < value.result.len) return -2;
+    if (value.result.len != 0) {
+        const destination = output orelse return -2;
+        @memcpy(destination[0..value.result.len], value.result);
+    }
     return @intCast(value.result.len);
 }
 
