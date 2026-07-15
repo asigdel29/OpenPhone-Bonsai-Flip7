@@ -40,7 +40,7 @@ jobs:
           test "$(zig version)" = "$(tr -d '\\n' < .zigversion)"
           zig fmt --check native/zig
           zig build test --build-file native/zig/build.zig
-          zig build --build-file native/zig/build.zig -Dtarget=aarch64-linux-android35 -Doptimize=ReleaseSafe
+          zig build --build-file native/zig/build.zig -Dtarget=aarch64-linux-android -Doptimize=ReleaseSafe
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
