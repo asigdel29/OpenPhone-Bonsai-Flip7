@@ -44,6 +44,12 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
     }) });
     const run_computer_use = b.addRunArtifact(computer_use);
+    const consent = b.addTest(.{ .root_module = b.createModule(.{
+        .root_source_file = b.path("src/openrouter_consent.zig"),
+        .target = target,
+        .optimize = optimize,
+    }) });
+    const run_consent = b.addRunArtifact(consent);
     const test_step = b.step("test", "Run the native ABI contract test");
     test_step.dependOn(&run.step);
     test_step.dependOn(&run_core.step);
@@ -51,4 +57,5 @@ pub fn build(b: *std.Build) void {
     test_step.dependOn(&run_router.step);
     test_step.dependOn(&run_bonsai.step);
     test_step.dependOn(&run_computer_use.step);
+    test_step.dependOn(&run_consent.step);
 }
