@@ -42,11 +42,18 @@ pub export fn openphone_zig_core_generate(handle: ?*Core, request: ?*const Reque
     const input = request orelse return -2;
     if (input.bytes_len > maximum_request_bytes or (input.bytes_len != 0 and input.bytes == null)) return -3;
     value.lock.lock();
-    if (value.active) { value.lock.unlock(); return -4; }
+    if (value.active) {
+        value.lock.unlock();
+        return -4;
+    }
     value.active = true;
     const cancelled = value.cancelled_token == input.cancellation_token;
     value.lock.unlock();
-    defer { value.lock.lock(); value.active = false; value.lock.unlock(); }
+    defer {
+        value.lock.lock();
+        value.active = false;
+        value.lock.unlock();
+    }
     if (cancelled) return -5;
     const bytes = input.bytes orelse &.{};
     const copy = value.allocator.dupe(u8, bytes[0..input.bytes_len]) catch return -6;
