@@ -19,6 +19,8 @@ required=(
   docs/DEVICE_SUPPORT.md
   docs/GMS.md
   docs/LOCAL_AGENT_NOTES.md
+  docs/LOCAL_BONSAI_RUNTIME.md
+  docs/BONSAI_ACCEPTANCE.md
   docs/LICENSING.md
   docs/runtime/hermes-integration.md
   docs/runtime/mcp-bridge.md
@@ -60,6 +62,7 @@ required=(
   .github/pull_request_template.md
   docs/devices/MATRIX.md
   docs/devices/README.md
+  docs/devices/flip7.md
   docs/devices/tegu.md
   manifests/openphone.xml
   scripts/prepare-tegu-dtb.sh
@@ -91,6 +94,10 @@ required=(
   scripts/smoke-test-tegu-hardware.sh
   scripts/verify-tegu-device.sh
   scripts/verify-tegu-bootchain.sh
+  scripts/verify-flip7-preflight.sh
+  scripts/stage-bonsai-model.sh
+  scripts/verify-staged-bonsai-model.sh
+  configs/bonsai-runtime.example.json
   services/model-broker/README.md
   services/model-broker/devices.example.json
   services/model-broker/deploy/README.md
@@ -890,6 +897,34 @@ if grep -R "SPDX-license-identifier-Apache-2.0" \
     "$root/overlay/packages/apps/OpenPhoneAssistant" >/dev/null 2>&1; then
   printf 'OpenPhone-owned overlay modules must not be marked Apache-2.0\n' >&2
   exit 1
+fi
+
+if command -v python3 >/dev/null 2>&1; then
+  python3 - <<'PY' "$root/configs/bonsai-runtime.example.json"
+import json
+import sys
+
+with open(sys.argv[1], encoding="utf-8") as source:
+    config = json.load(source)
+
+if config.get("schema_version") != 1:
+    raise SystemExit("Bonsai runtime config has an unsupported schema version")
+runtime = config.get("runtime", {})
+if runtime.get("http_compatibility_bind") != "127.0.0.1":
+    raise SystemExit("Bonsai compatibility HTTP endpoint must bind to loopback")
+if runtime.get("network_permitted") is not False:
+    raise SystemExit("Bonsai runtime must not permit network access")
+if config.get("model_install_path") != "/product/etc/bonsai/models":
+    raise SystemExit("Bonsai models must be installed in the read-only product image")
+vision = config.get("vision", {})
+if vision.get("image_max_tokens") != 1024:
+    raise SystemExit("Bonsai default image cap must be 1024 tokens")
+release = config.get("release_1", {})
+if release.get("network_tools_allowed") or release.get("mcp_allowed"):
+    raise SystemExit("Release 1 Bonsai runtime must not include network or MCP tools")
+if release.get("state_changing_actions_require_confirmation") is not True:
+    raise SystemExit("Bonsai state-changing actions must require confirmation")
+PY
 fi
 
 "$root/scripts/check-runtime-protocol.sh"

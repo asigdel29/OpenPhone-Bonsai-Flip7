@@ -1,5 +1,6 @@
 .DS_Store
 .worktree/
+.local-bonsai/
 out/
 *.log
 *.tmp

@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "runtime": {
+    "llama_cpp_commit": "PIN_AT_DEVICE_INTEGRATION",
+    "process": "bonsai_runtime",
+    "binder_service": "bonsai_runtime",
+    "http_compatibility_bind": "127.0.0.1",
+    "network_permitted": false
+  },
+  "default_model": {
+    "family": "ternary-bonsai",
+    "size": "8B",
+    "quantization": "Q2_0",
+    "backend_recommendation": "cpu-neon-kleidiai"
+  },
+  "vision": {
+    "image_max_tokens": 1024,
+    "full_detail_requires_explicit_user_choice": true
+  },
+  "model_install_path": "/product/etc/bonsai/models",
+  "release_1": {
+    "network_tools_allowed": false,
+    "mcp_allowed": false,
+    "state_changing_actions_require_confirmation": true
+  }
+}
