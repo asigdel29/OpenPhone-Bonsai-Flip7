@@ -1,0 +1,15 @@
+{
+  "schema": "openphone.bonsai_eval_plan.v1",
+  "suite_id": "bonsai-interactive-v1",
+  "minimum_cases": 12,
+  "categories": {
+    "text": 4,
+    "reasoning": 2,
+    "vision": 2,
+    "cancellation": 2,
+    "tool_safety": 2
+  },
+  "quality_rule": "Each case has a deterministic, sanitized evaluator. Store only its pass/fail result in the report.",
+  "latency_rule": "Measure warm p50/p95 after the configured thermal-gated prewarm. Record aggregate timings only.",
+  "privacy_rule": "Do not include prompts, outputs, images, files, serials, tokens, or raw logs in reports."
+}

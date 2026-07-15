@@ -10,6 +10,7 @@
     "LOCAL_BONSAI_RUNTIME",
     "BONSAI_ACCEPTANCE",
     "BONSAI_LATENCY",
+    "BONSAI_EVALS",
     "---Build---",
     "BUILD",
     "EMULATOR",

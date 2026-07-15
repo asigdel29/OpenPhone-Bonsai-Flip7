@@ -15,7 +15,12 @@ release tooling, and eval tooling must agree on:
 - trajectory events;
 - background agent jobs and task reports;
 - OTA feed metadata.
+- sanitized local Bonsai evaluation reports.
 
 `scripts/check.sh` and the validation scripts use these schemas to catch drift
 between model tools, framework actions, audit logs, eval traces, and release
 artifacts.
+
+`bonsai-eval-report.schema.json` records aggregate quality, latency,
+cancellation, memory, thermal, and listener outcomes without prompts, outputs,
+media, identifiers, or model assets.

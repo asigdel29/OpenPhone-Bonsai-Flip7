@@ -23,6 +23,7 @@ required=(
   docs/LOCAL_BONSAI_RUNTIME.md
   docs/BONSAI_ACCEPTANCE.md
   docs/BONSAI_LATENCY.md
+  docs/BONSAI_EVALS.md
   docs/LICENSING.md
   docs/runtime/hermes-integration.md
   docs/runtime/mcp-bridge.md
@@ -45,6 +46,7 @@ required=(
   schemas/action-registry.schema.json
   schemas/action-result.schema.json
   schemas/agent-eval-report.schema.json
+  schemas/bonsai-eval-report.schema.json
   schemas/agent-job.schema.json
   schemas/agent-task.schema.json
   schemas/app-policy.schema.json
@@ -99,6 +101,7 @@ required=(
   scripts/verify-flip7-preflight.sh
   scripts/stage-bonsai-model.sh
   scripts/verify-staged-bonsai-model.sh
+  scripts/validate-bonsai-eval-report.sh
   configs/bonsai-runtime.example.json
   services/model-broker/README.md
   services/model-broker/devices.example.json
@@ -119,6 +122,7 @@ required=(
   integrations/cli/package.json
   integrations/cli/src/index.mjs
   tests/README.md
+  tests/test_bonsai_eval_report.sh
   tests/integrations/runtime-cli-contract.mjs
   tests/integrations/runtime-mcp-contract.mjs
   tests/integrations/openclaw-plugin-policy-contract.mjs
@@ -948,5 +952,6 @@ fi
 
 "$root/scripts/check-runtime-protocol.sh"
 "$root/scripts/check-assistant-java.sh"
+"$root/tests/test_bonsai_eval_report.sh"
 
 printf 'OpenPhone repo checks passed.\n'
