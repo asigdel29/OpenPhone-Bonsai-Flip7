@@ -18,7 +18,7 @@ This change completes the PR-00 bootstrap; later rows remain intentionally pendi
 | PR-09–11 | broker replacement, CI gates, documentation cleanup | PR-08 |
 
 `native/zig` uses the exact version in `.zigversion`. Reproducible Android
-artifacts use `zig build -Dtarget=aarch64-linux-android35 -Doptimize=ReleaseSafe`;
+artifacts use `zig build -Dtarget=aarch64-linux-android -Doptimize=ReleaseSafe`;
 host ABI tests use `zig build test`. The Android shim must pass immutable values,
 never call JNI while holding native state locks, and fail closed on ABI errors.
 
