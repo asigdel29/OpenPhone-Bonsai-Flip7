@@ -13,10 +13,12 @@ pub fn build(b: *std.Build) void {
     const contract = b.addExecutable(.{ .name = "openphone_zig_abi_contract", .target = target, .optimize = optimize });
     contract.addCSourceFile(.{ .file = b.path("tests/abi_contract.c"), .flags = &.{"-std=c11"} });
     contract.linkLibrary(abi);
+    contract.linkLibC();
     const run = b.addRunArtifact(contract);
     const core_contract = b.addExecutable(.{ .name = "openphone_zig_core_contract", .target = target, .optimize = optimize });
     core_contract.addCSourceFile(.{ .file = b.path("tests/core_contract.c"), .flags = &.{"-std=c11"} });
     core_contract.linkLibrary(abi);
+    core_contract.linkLibC();
     const run_core = b.addRunArtifact(core_contract);
     const persistence = b.addTest(.{ .root_module = b.createModule(.{
         .root_source_file = b.path("src/openphone_persistence.zig"),
