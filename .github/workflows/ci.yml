@@ -38,6 +38,7 @@ jobs:
       - name: Build Zig ABI contracts
         run: |
           test "$(zig version)" = "$(tr -d '\\n' < .zigversion)"
+          zig fmt --check native/zig
           zig build test --build-file native/zig/build.zig
           zig build --build-file native/zig/build.zig -Dtarget=aarch64-linux-android -Doptimize=ReleaseSafe
 
