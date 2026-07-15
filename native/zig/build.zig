@@ -20,7 +20,14 @@ pub fn build(b: *std.Build) void {
     core_contract.linkLibrary(abi);
     core_contract.linkLibC();
     const run_core = b.addRunArtifact(core_contract);
+    const persistence = b.addTest(.{ .root_module = b.createModule(.{
+        .root_source_file = b.path("src/openphone_persistence.zig"),
+        .target = target,
+        .optimize = optimize,
+    }) });
+    const run_persistence = b.addRunArtifact(persistence);
     const test_step = b.step("test", "Run the native ABI contract test");
     test_step.dependOn(&run.step);
     test_step.dependOn(&run_core.step);
+    test_step.dependOn(&run_persistence.step);
 }
