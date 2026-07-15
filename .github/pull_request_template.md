@@ -6,6 +6,7 @@ What changed, and why?
 
 - [ ] `./scripts/check.sh`
 - [ ] `git diff --check`
+- [ ] Fresh `/code-review` evidence is included in this PR description.
 - [ ] Device test, if relevant:
 - [ ] Screenshot, trajectory, audit export, or release artifact evidence, if relevant:
 

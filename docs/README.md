@@ -40,6 +40,7 @@ The first static docs site scaffold uses Fumadocs with a Next.js app in
   policy configuration.
 - [Local Agent Notes](LOCAL_AGENT_NOTES.md) - convention for ignored local-only
   markdown scratch space.
+- [Zig Migration](ZIG_MIGRATION.md) - staged native-runtime migration ledger.
 
 ## Device And Release Docs
 
