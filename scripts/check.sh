@@ -19,6 +19,7 @@ required=(
   docs/DEVICE_SUPPORT.md
   docs/GMS.md
   docs/LOCAL_AGENT_NOTES.md
+  docs/STYLE.md
   docs/LOCAL_BONSAI_RUNTIME.md
   docs/BONSAI_ACCEPTANCE.md
   docs/LICENSING.md

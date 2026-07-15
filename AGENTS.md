@@ -50,6 +50,14 @@ Docs and contracts:
   public docs unless it has been reviewed and intentionally rewritten for the
   repository.
 
+Java and concurrency:
+
+- Follow `docs/STYLE.md` for new Java and Binder/runtime code.
+- Document shared-state invariants, lock ownership, blocking conditions,
+  cancellation, and interruption behavior at each public concurrency boundary.
+- Prefer immutable request/value objects and narrow interfaces. Do not expose
+  mutable state or rely on ambient static state for runtime policy.
+
 Commit shape:
 
 - Prefer one atomic commit per green unit of work.
